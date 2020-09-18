@@ -1,0 +1,32 @@
+.top_image{
+  height: 200px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.top_image img{
+  width: 100%;
+}
+.user_info{
+  display: flex;
+}
+
+.user_photo{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.user_photo img{
+  height: 100%;
+}
+
+.user_list{
+  display: block;
+}
+
+.user_list span{
+  font-weight: bold;
+}

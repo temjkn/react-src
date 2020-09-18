@@ -1,0 +1,39 @@
+
+.post_item{
+  display: flex;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid grey;
+}
+.post_item:last-child{
+  border-bottom: none;
+}
+
+.post_photo{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.post_photo img{
+  height: 100%;
+}
+
+.like{
+  color: red;
+  font-weight: bold;
+}
+
+.add_like{
+  margin-right: 15px;
+  background-color: green;
+  border: none;
+  color: white;
+  padding: 10px;
+}
+
+.button{
+  margin-left:0;
+}

@@ -1,0 +1,31 @@
+.app-wraper{
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 0 25px;
+  display: grid;
+  grid-template-areas: 
+  "header header"
+  "nav content";
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 2fr 10fr;
+  grid-gap: 10px;
+}
+
+.button{
+  display: block;
+  background-color: green;
+  height: 50px;
+  padding: 0 25px;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  margin-left: auto;
+  transition: .3s opacity;
+}
+.button:hover{
+  opacity: .7;
+}
+
+.content{
+  grid-area: content;
+}
