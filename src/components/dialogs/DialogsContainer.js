@@ -34,7 +34,7 @@ import { connect } from 'react-redux';
 
 let mapStateToProps = (state) => ({state : state.dialogsPage})
 
-let mapStoreToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
     return {
         updateTextMessage : (text) => {
             dispatch(updateTextMessageActionCreator(text))
@@ -45,6 +45,6 @@ let mapStoreToProps = (dispatch) => {
     }
 }
 
-const DialogsContainer = connect(mapStateToProps,mapStoreToProps)(Dialogs);
+const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs);
 
 export default DialogsContainer;

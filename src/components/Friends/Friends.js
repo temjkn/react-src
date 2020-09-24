@@ -1,14 +1,18 @@
 import React from 'react';
 import classes from './Friends.module.css';
-import FriendsItem from './FriendsItem/FriendsItem'
 
 function Friends(props){
-    let friendsList =  props.friendsList.map(
-        el => <FriendsItem key = {el.id} state={el}/>
+    let item = props.friendsList.map(
+        u => u.follow ?
+            <a href={u.linkOnPage} className={classes.friendItem} key={u.id}>
+                <img className = {classes.friendPhoto} alt={u.name} src={u.photo}/>
+                <span>{u.name}</span>
+            </a> :
+            console.log(u.id)
     )
     return(
         <div className={classes.friendsWrap}>
-            {friendsList}
+            {item}
         </div>
     );
 }

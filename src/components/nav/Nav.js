@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Nav.module.css';
 import { NavLink } from 'react-router-dom';
-import FriendsContainer from './friendsContainer.js';
+import FriendsShort from '../Friends/FriendsShort';
 
 function Nav(props){
     return(
@@ -11,10 +11,11 @@ function Nav(props){
                 <NavLink activeClassName={classes.active} to="/dialogs">messages</NavLink>
                 <NavLink activeClassName={classes.active} to="/news">news</NavLink>
                 <NavLink activeClassName={classes.active} to="/setting">setting</NavLink>
+                <NavLink activeClassName={classes.active} to="/users">Users</NavLink>
+                <hr/>
+                <span>MY FRIENDS:</span>
             </nav>
-            <hr/>
-            FRIENDS
-            <FriendsContainer/>
+            <FriendsShort/>
         </div>
     );
 }
