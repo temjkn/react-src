@@ -3,13 +3,6 @@ import User from './User';
 import { connect } from "react-redux";
 import { followAC, setUsersAC, unfollowAC } from '../../redux/friendList-reducer';
 
-{/* <StoreContext.Consumer>
-    {(store) => {
-        let state = store.getState();
-        return <Friends friendsList = {state.friendsList}/>
-    }}
-</StoreContext.Consumer> */}
-
 let mapStateToProps = (state) => {
     return {
         users: state.friendsList.users
@@ -24,7 +17,7 @@ let mapDispatchToProps = (dispatch) => {
         unfollow: (userId) => {
             dispatch(unfollowAC(userId))
         },
-        setUsersAC: (users) => {
+        setUsers: (users) => {
             dispatch(setUsersAC(users))
         }
     }
