@@ -1,5 +1,6 @@
 .friendsWrap{
   display:flex;
+  flex-wrap: wrap;
   color: inherit;
   margin: 30px -5px 0;
 }

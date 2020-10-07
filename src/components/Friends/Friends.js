@@ -16,7 +16,6 @@ function Friends(props){
         //     </a> :
         //     console.log(u.id)
     )
-    
     return(
         <div className={classes.friendsWrap}>
             {item}
