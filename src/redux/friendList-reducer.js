@@ -3,13 +3,15 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_TOTAL_USER_COUNT = 'SET_TOTAL_USER_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const TOGGLE_IS_LOADING = 'TOGGLE_IS_LOADING';
 
 let initialState = {
     users: [],
     myFriendtsList: 0,
     totalUsersCount: 0,
     usersOnPage: 15,
-    currentPage: 1
+    currentPage: 1,
+    isLoading: true
     // users: [
     //     {
     //         id: 1,
@@ -23,32 +25,6 @@ let initialState = {
     //         },
     //         status: "my status",
     //         follow: true
-    //     },
-    //     {
-    //         id: 2,
-    //         firstName: "Shhladys",
-    //         name:"Blad",
-    //         photo:"https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg", 
-    //         linkOnPage:"#rt",
-    //         location:{
-    //             country: "BelaRussia",
-    //             sity:"Gorki"
-    //         },
-    //         status: "Blad my status",
-    //         follow: true
-    //     },
-    //     {
-    //         id: 3,
-    //         firstName: "Shhladys2",
-    //         name:"Flat",
-    //         photo:"https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg", 
-    //         linkOnPage:"https://www.youtube.com/watch?v=GW5PwlzXBDc&list=PLcvhF2Wqh7DNVy1OCUpG3i5lyxyBWhGZ8&index=31&t=0s",
-    //         location:{
-    //             country: "Poland",
-    //             sity:"Gdansk"
-    //         },
-    //         status: "my status Flat",
-    //         follow: false
     //     }
     // ]
 };
@@ -84,6 +60,9 @@ const friendsListReducer = (state = initialState, action) => {
         case SET_CURRENT_PAGE: {
             return { ...state, currentPage: action.currentPage}
         }
+        case TOGGLE_IS_LOADING: {
+            return { ...state, isLoading: action.isLoading}
+        }
         default:
             return state;
     }
@@ -94,5 +73,6 @@ export const unfollowAC = (userId) => ({type: UNFOLLOW, userId })
 export const setUsersAC = (users) => ({type: SET_USERS, users })
 export const setTotalUserCountAC = (totalUsersCount) => ({type: SET_TOTAL_USER_COUNT, totalUsersCount })
 export const setCurrentPageAC = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage })
+export const toggleIsLoadingAC = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading })
 
 export default friendsListReducer;

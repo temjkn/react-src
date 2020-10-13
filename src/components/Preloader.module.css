@@ -1,0 +1,15 @@
+.wrap{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:calc(100% - 30px);
+    height:calc(100vh - 30px);
+    display: flex;
+    align-items:center;
+    background: #72c123d6;
+    padding: 15px;
+}
+.content{
+    font-size:5em;
+    margin: 0 auto;
+}
