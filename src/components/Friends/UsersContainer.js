@@ -2,7 +2,7 @@ import * as Axios from 'axios';
 import React from 'react';
 import User from './User';
 import { connect } from "react-redux";
-import { followAC, setTotalUserCountAC,setCurrentPageAC, setUsersAC, unfollowAC, toggleIsLoadingAC } from '../../redux/friendList-reducer';
+import { follow, setTotalUserCount,setCurrentPage, setUsers, unfollow, toggleIsLoading } from '../../redux/friendList-reducer';
 import Preloader from '../Preloader';
 
 class UsersContainer extends React.Component{ // презентационная компанента, делает запрос на сервер, полученные данные передает функциональной компаненте
@@ -53,27 +53,27 @@ let mapStateToProps = (state) => {
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (userId) => {
-            dispatch(followAC(userId))
-        },
-        unfollow: (userId) => {
-            dispatch(unfollowAC(userId))
-        },
-        setUsers: (users) => {
-            dispatch(setUsersAC(users))
-        },
-        setTotalUserCount : (currentPage) => {
-            dispatch(setTotalUserCountAC(currentPage))
-        },
-        setCurrentPage : (currentPage) => {
-            dispatch(setCurrentPageAC(currentPage))
-        },
-        toggleIsLoading : (isLoading) => {
-            dispatch(toggleIsLoadingAC(isLoading))
-        }
-    }
-}
+// let mapDispatchToProps = (dispatch) => {  раньше создавал эту функцию и отправлял в connect, теперь передаю обьект с названиемя функций из редюсера
+//     return {
+//         follow: (userId) => {
+//             dispatch(followAC(userId))
+//         },
+//         unfollow: (userId) => {
+//             dispatch(unfollowAC(userId))
+//         },
+//         setUsers: (users) => {
+//             dispatch(setUsersAC(users))
+//         },
+//         setTotalUserCount : (currentPage) => {
+//             dispatch(setTotalUserCountAC(currentPage))
+//         },
+//         setCurrentPage : (currentPage) => {
+//             dispatch(setCurrentPageAC(currentPage))
+//         },
+//         toggleIsLoading : (isLoading) => {
+//             dispatch(toggleIsLoadingAC(isLoading))
+//         }
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export default connect(mapStateToProps, {toggleIsLoading,setCurrentPage,setTotalUserCount,setUsers,unfollow,follow})(UsersContainer)

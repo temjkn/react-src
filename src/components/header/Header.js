@@ -1,9 +1,14 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 
-function Header(){
+function Header(props){
+    console.log(props)
     return(
-        <header className="header"> I`m header</header>
+        <header className="header">
+            I`m header
+            <div className = "login">{props.isAuth ? props.login : <NavLink to = "/login">Login</NavLink>}</div>
+        </header>
     );
 }
 export default Header;

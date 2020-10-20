@@ -1,6 +1,7 @@
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 const ADD_POST = 'ADD_POST';
 const CLICK = 'CLICK';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
 let initialStore = {
     postsData : [
@@ -9,7 +10,8 @@ let initialStore = {
     {id: 3, message: "ASDSDASD", likesCount:36},
     {id: 4, message: "message", likesCount:5}
     ],
-    newPostText : ""
+    newPostText : "",
+    profile : null
 }
 
 const profileReducer = (state = initialStore,action) => {
@@ -57,8 +59,11 @@ const profileReducer = (state = initialStore,action) => {
             }
             return stateCopy;
         }
+        case SET_USER_PROFILE : {
+            return {...state, profile: action.profile}
+        }
         default:
-        return state;
+            return state;
     }
 }
 
@@ -67,5 +72,6 @@ const profileReducer = (state = initialStore,action) => {
 export const addPostActionCreator = () => ({type : ADD_POST}); //создаю обьект для dispatch
 export const updateNewPostTextActionCreator = (text) => ({type : UPDATE_NEW_POST_TEXT, textMessage : text}); //создаю обьект для dispatch
 export const clickActionCreator = (id) => ({type : CLICK, id : id}); //создаю обьект для dispatch
+export const setUserProfile = (profile) => ({type : SET_USER_PROFILE, profile}); //создаю обьект для dispatch
 
 export default profileReducer;

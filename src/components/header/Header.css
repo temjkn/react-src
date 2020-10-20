@@ -1,4 +1,7 @@
 .header{
     grid-area: header;
   }
-  
+.login{
+  color: green;
+  font-weight: 500;
+}

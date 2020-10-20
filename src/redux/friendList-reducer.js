@@ -9,7 +9,7 @@ let initialState = {
     users: [],
     myFriendtsList: 0,
     totalUsersCount: 0,
-    usersOnPage: 15,
+    usersOnPage: 35,
     currentPage: 1,
     isLoading: true
     // users: [
@@ -68,11 +68,11 @@ const friendsListReducer = (state = initialState, action) => {
     }
 }
 
-export const followAC = (userId) => ({type: FOLLOW, userId })
-export const unfollowAC = (userId) => ({type: UNFOLLOW, userId })
-export const setUsersAC = (users) => ({type: SET_USERS, users })
-export const setTotalUserCountAC = (totalUsersCount) => ({type: SET_TOTAL_USER_COUNT, totalUsersCount })
-export const setCurrentPageAC = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage })
-export const toggleIsLoadingAC = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading })
+export const follow = (userId) => ({type: FOLLOW, userId })
+export const unfollow = (userId) => ({type: UNFOLLOW, userId })
+export const setUsers = (users) => ({type: SET_USERS, users })
+export const setTotalUserCount = (totalUsersCount) => ({type: SET_TOTAL_USER_COUNT, totalUsersCount })
+export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage })
+export const toggleIsLoading = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading })
 
 export default friendsListReducer;

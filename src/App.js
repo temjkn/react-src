@@ -1,23 +1,23 @@
 import React from 'react';
 import './App.css';
-import Header from './components/header/Header';
 import Nav from './components/nav/Nav';
-import Profile from './components/profile/Profile';
 import News from './components/news/News';
 import Setting from './components/setting/Setting';
 import { Route, BrowserRouter } from 'react-router-dom';
 import DialogsContainer from './components/dialogs/DialogsContainer';
 import UsersContainer from './components/Friends/UsersContainer';
+import ProfileContainer from './components/profile/ProfileContainer';
+import HeaderContainer from './components/header/HeaderContainer';
 
 function App(props) {
   return (
     <BrowserRouter>
       <div className="app-wraper">
-        <Header/>
+        <HeaderContainer/>
         <Nav/>
         <div className='content'>
-          <Route path="/profile" render={()=>
-            <Profile />
+          <Route path="/profile/:userId?" render={()=>
+            <ProfileContainer />
           }
           />
           <Route path="/dialogs" render = { ()=> 
