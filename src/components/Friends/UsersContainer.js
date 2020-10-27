@@ -1,31 +1,52 @@
-import * as Axios from 'axios';
 import React from 'react';
 import User from './User';
 import { connect } from "react-redux";
-import { follow, setTotalUserCount,setCurrentPage, setUsers, unfollow, toggleIsLoading } from '../../redux/friendList-reducer';
+import { follow, setTotalUserCount,
+    setCurrentPage, setUsers,
+    unfollow, toggleIsLoading,
+    toggleFollowingInProgress } from '../../redux/friendList-reducer';
 import Preloader from '../Preloader';
+import { usersAPI } from '../../api/api';
 
-class UsersContainer extends React.Component{ // презентационная компанента, делает запрос на сервер, полученные данные передает функциональной компаненте
+// презентационная компанента, делает запрос на сервер, полученные данные передает функциональной компаненте
+class UsersContainer extends React.Component{
     constructor(props){
         super(props);
         this.props.toggleIsLoading(true)
-        Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.usersOnPage}`).then(
-                response => {
-                    this.props.toggleIsLoading(false)
-                    this.props.setUsers(response.data.items)
-                    this.props.setTotalUserCount(response.data.totalCount)
-                }
-            );
+        usersAPI.getUsers(this.props.currentPage, this.props.usersOnPage).then(
+            data => {
+                this.props.toggleIsLoading(false)
+                this.props.setUsers(data.items)
+                this.props.setTotalUserCount(data.totalCount)
+            }
+        );
+
+        //для удобства изменения создал обьект suserAPI
+        // Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.usersOnPage}`).then(
+        //         response => {
+        //             this.props.toggleIsLoading(false)
+        //             this.props.setUsers(response.data.items)
+        //             this.props.setTotalUserCount(response.data.totalCount)
+        //         }
+        //     );
     }
     onCangedPage = (pageNumber) => {
         this.props.setCurrentPage(pageNumber)
         this.props.toggleIsLoading(true)
-        Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.usersOnPage}`).then(
-            response => {
-                this.props.setUsers(response.data.items)
+
+        usersAPI.getUsers(pageNumber, this.props.usersOnPage).then(
+            data => {
+                this.props.setUsers(data.items)
                 this.props.toggleIsLoading(false)
             }
         );
+
+        // Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.usersOnPage}`).then(
+        //     response => {
+        //         this.props.setUsers(response.data.items)
+        //         this.props.toggleIsLoading(false)
+        //     }
+        // );
     }
     render(){
         return <>
@@ -38,6 +59,8 @@ class UsersContainer extends React.Component{ // презентационная 
                     users = {this.props.users}
                     follow = {this.props.follow}
                     unfollow = {this.props.unfollow}
+                    followingInProgress = {this.props.followingInProgress}
+                    toggleFollowingInProgress = {this.props.toggleFollowingInProgress}
                 />
             </>
     }
@@ -49,7 +72,8 @@ let mapStateToProps = (state) => {
         isLoading: state.friendsList.isLoading,
         totalUsersCount: state.friendsList.totalUsersCount,
         usersOnPage: state.friendsList.usersOnPage,
-        currentPage: state.friendsList.currentPage
+        currentPage: state.friendsList.currentPage,
+        followingInProgress: state.friendsList.followingInProgress
     }
 }
 
@@ -76,4 +100,4 @@ let mapStateToProps = (state) => {
 //     }
 // }
 
-export default connect(mapStateToProps, {toggleIsLoading,setCurrentPage,setTotalUserCount,setUsers,unfollow,follow})(UsersContainer)
+export default connect(mapStateToProps, {toggleIsLoading,setCurrentPage,setTotalUserCount,setUsers,unfollow,follow,toggleFollowingInProgress})(UsersContainer)

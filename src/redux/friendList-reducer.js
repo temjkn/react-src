@@ -4,6 +4,7 @@ const SET_USERS = 'SET_USERS';
 const SET_TOTAL_USER_COUNT = 'SET_TOTAL_USER_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const TOGGLE_IS_LOADING = 'TOGGLE_IS_LOADING';
+const TOGGLE_FOLLOWING_IN_PROGRESS = 'TOGGLE_FOLLOWING_IN_PROGRESS';
 
 let initialState = {
     users: [],
@@ -11,8 +12,9 @@ let initialState = {
     totalUsersCount: 0,
     usersOnPage: 35,
     currentPage: 1,
-    isLoading: true
-    // users: [
+    isLoading: true,
+    followingInProgress: []
+    // users: [ такими были пользователи в начале
     //     {
     //         id: 1,
     //         firstName: "Bladys",
@@ -63,6 +65,14 @@ const friendsListReducer = (state = initialState, action) => {
         case TOGGLE_IS_LOADING: {
             return { ...state, isLoading: action.isLoading}
         }
+        case TOGGLE_FOLLOWING_IN_PROGRESS: {
+            return {
+                ...state,
+                followingInProgress: action.isFetching // если true - копирую новый массив с пользователями на которые решил подписатся-отписатся
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id != action.userId) //иначе удаляю пользователей из массива когда получаю ответ от сервера
+            }
+        }
         default:
             return state;
     }
@@ -74,5 +84,6 @@ export const setUsers = (users) => ({type: SET_USERS, users })
 export const setTotalUserCount = (totalUsersCount) => ({type: SET_TOTAL_USER_COUNT, totalUsersCount })
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage })
 export const toggleIsLoading = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading })
+export const toggleFollowingInProgress = (isFetching, userId) => ({type: TOGGLE_FOLLOWING_IN_PROGRESS, isFetching, userId })
 
 export default friendsListReducer;

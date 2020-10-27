@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './User.module.css';
 import avatarImage from '../../assets/images/avatar.png'
 import { NavLink } from 'react-router-dom';
-import Axios from 'axios';
+import { usersAPI } from '../../api/api';
 
 function User(props) {
     let pageCouter = Math.ceil(props.totalUsersCount / props.usersOnPage)
@@ -25,27 +25,46 @@ function User(props) {
                 <div>
                     <img src={u.photos.small != null ? u.photos.small : avatarImage} alt={u.name} className={classes.photo}/>
                     {u.followed
-                        ? <button onClick={() => {
-                                Axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                    withCredentials: true,
-                                    headers : {
-                                        'API-KEY' : '61a29f40-98d9-40e5-abd3-8e91c609f067'
-                                    }
-                                })
-                                    .then(response => {
-                                        response.data.resultCode === 0 && props.unfollow(u.id)
-                                    });
+                        ? <button
+                            disabled = {props.followingInProgress.some(id => id === u.id)} //изменяю состояние кнопки в зависимости от ответа сервера
+                            onClick={() => {
+                                props.toggleFollowingInProgress(true, u.id)
+                                usersAPI.isUnfollow(u.id).then(data =>{ // после выполнения запроса делает ещё одно действие "then"
+                                    data.resultCode === 0 && props.unfollow(u.id)
+                                    props.toggleFollowingInProgress(false, u.id)
+                                });
+
+                                // Axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, { //delete запрос посылается с двумя параметрами,вторым идет обьект с настройками
+                                //     withCredentials: true,                                                    // это подгрузка cookie с моим id и api ключом
+                                //     headers : {
+                                //         'API-KEY' : '61a29f40-98d9-40e5-abd3-8e91c609f067'
+                                //     }
+                                // })
+                                //     .then(response => {
+                                //         response.data.resultCode === 0 && props.unfollow(u.id)
+                                //     });
                             }}>Unfollow</button>
-                        : <button onClick={() => {
-                                Axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                    withCredentials: true,
-                                    headers: {
-                                        'API-KEY' : '61a29f40-98d9-40e5-abd3-8e91c609f067'
-                                    }
-                                })
-                                    .then(response => {
-                                        response.data.resultCode === 0 && props.follow(u.id)
-                                    });
+                        : <button 
+                            disabled = {props.followingInProgress.some(id => id === u.id)}
+                            onClick={() => {
+
+                                //toggleFollowingInProgress отправляю в редюсер id пользователя, по завершению запроса удаляю его из массива
+                                props.toggleFollowingInProgress(true, u.id)
+
+                                usersAPI.isFollow(u.id).then(data =>{ // после выполнения запроса делает ещё одно действие "then"
+                                    data.resultCode === 0 && props.follow(u.id)
+                                    props.toggleFollowingInProgress(false, u.id)
+                                });
+
+                                // Axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, { // post запрос отправлется с 3мя пораметрами,
+                                //     withCredentials: true,                                                      // третьим отправляем настройки с куками и апи
+                                //     headers: {
+                                //         'API-KEY' : '61a29f40-98d9-40e5-abd3-8e91c609f067'
+                                //     }
+                                // })
+                                //     .then(response => {
+                                //         response.data.resultCode === 0 && props.follow(u.id)
+                                //     });
                             }}>Follow</button>}
                     <span>{u.status}</span>
                 </div>
