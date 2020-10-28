@@ -32,7 +32,10 @@ import { connect } from 'react-redux';
 //     );
 // }
 
-let mapStateToProps = (state) => ({state : state.dialogsPage})
+let mapStateToProps = (state) => ({
+    state : state.dialogsPage,
+    isAuth: state.auth.isAuth
+})
 
 let mapDispatchToProps = (dispatch) => {
     return {

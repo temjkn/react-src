@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
+import { Redirect } from 'react-router-dom';
 
 function Dialogs(props){
     let dialogsElements = props.state.dialogsData.map(
@@ -24,6 +25,8 @@ function Dialogs(props){
     let AddMessage = () => {
         props.AddMessage() //вызываю функцию updateTextMessageActionCreator из dialogs-reducer.js,
     };                     //передаю её значения методу dispatch в файл state.js
+
+    if(!props.isAuth) return <Redirect to = 'login'/>
 
     return(
         <div className={classes.dialogs_wrap}>

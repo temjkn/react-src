@@ -8,6 +8,7 @@ import DialogsContainer from './components/dialogs/DialogsContainer';
 import UsersContainer from './components/Friends/UsersContainer';
 import ProfileContainer from './components/profile/ProfileContainer';
 import HeaderContainer from './components/header/HeaderContainer';
+import Login from './components/login/Login';
 
 function App(props) {
   return (
@@ -28,7 +29,8 @@ function App(props) {
           <Route path="/users" render = { ()=> 
             <UsersContainer />
           }/>
-          <Route path="/Setting" component={Setting}/>
+          <Route path="/setting" component={Setting}/>
+          <Route path="/login" component={Login}/>
         </div>
       </div>
     </BrowserRouter>
