@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -19,7 +21,7 @@ let initialState = {
     //         id: 1,
     //         firstName: "Bladys",
     //         name:"Shhlad",
-    //         photo:"https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg", 
+    //         photo:"https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg",
     //         linkOnPage:"15",
     //         location: {
     //             country: "Russia",
@@ -68,9 +70,11 @@ const friendsListReducer = (state = initialState, action) => {
         case TOGGLE_FOLLOWING_IN_PROGRESS: {
             return {
                 ...state,
-                followingInProgress: action.isFetching // если true - копирую новый массив с пользователями на которые решил подписатся-отписатся
+                followingInProgress: action.isFetching
+                    // если true - копирую новый массив с пользователями на которые решил подписатся-отписатся
                     ? [...state.followingInProgress, action.userId]
-                    : state.followingInProgress.filter(id => id != action.userId) //иначе удаляю пользователей из массива когда получаю ответ от сервера
+                    //иначе фильтрую по id, тот что подходит - не проходит фильтр и не попадает в новую копию массива
+                    : state.followingInProgress.filter(id => id !== action.userId)
             }
         }
         default:
@@ -85,5 +89,43 @@ export const setTotalUserCount = (totalUsersCount) => ({type: SET_TOTAL_USER_COU
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage })
 export const toggleIsLoading = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading })
 export const toggleFollowingInProgress = (isFetching, userId) => ({type: TOGGLE_FOLLOWING_IN_PROGRESS, isFetching, userId })
+
+// thunkCreator, ф-ция высшего порядка, возвращает другую ф-цию, в параметрах принимает необходимые данные
+// и возвращает thunk(санки)
+export const getUsersThunk = (currentPage,usersOnPage) => { //thunkCreator
+    return (dispatch) => { //сами санки
+        dispatch(toggleIsLoading(true))
+        usersAPI.getUsers(currentPage,usersOnPage).then(
+            data => {
+                dispatch(toggleIsLoading(false))
+                dispatch(setUsers(data.items))
+                dispatch(setTotalUserCount(data.totalCount))
+            }
+        );
+    }
+}
+
+export const unfollowThunk = (userId) => {
+    return (dispatch) => {
+        //action, первый параметр говорит удалить или добавить второй параметр (id)
+        dispatch(toggleFollowingInProgress(true, userId));
+
+        usersAPI.isUnfollow(userId).then(data =>{ // после выполнения запроса делает ещё одно действие "then"
+            data.resultCode === 0 && dispatch(unfollow(userId));
+            dispatch(toggleFollowingInProgress(false, userId));
+        });
+    }
+}
+export const followThunk = (userId) => {
+    return (dispatch) => {
+        //action, первый параметр говорит удалить или добавить второй параметр (id)
+        dispatch(toggleFollowingInProgress(true, userId));
+
+        usersAPI.isFollow(userId).then(data =>{ // после выполнения запроса делает ещё одно действие "then"
+            data.resultCode === 0 && dispatch(follow(userId));
+            dispatch(toggleFollowingInProgress(false, userId));
+        });
+    }
+}
 
 export default friendsListReducer;

@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 const ADD_POST = 'ADD_POST';
 const CLICK = 'CLICK';
@@ -73,5 +75,15 @@ export const addPostActionCreator = () => ({type : ADD_POST}); //создаю о
 export const updateNewPostTextActionCreator = (text) => ({type : UPDATE_NEW_POST_TEXT, textMessage : text}); //создаю обьект для dispatch
 export const clickActionCreator = (id) => ({type : CLICK, id : id}); //создаю обьект для dispatch
 export const setUserProfile = (profile) => ({type : SET_USER_PROFILE, profile}); //создаю обьект для dispatch
+
+export const getUserProfileThunk = (userId) => {
+    return (dispatch) => {
+        usersAPI.getProfile(userId).then(
+            response => {
+                dispatch(setUserProfile(response.data));
+            }
+        )
+    }
+}
 
 export default profileReducer;

@@ -1,27 +1,16 @@
 import React from 'react';
 import User from './User';
 import { connect } from "react-redux";
-import { follow, setTotalUserCount,
-    setCurrentPage, setUsers,
-    unfollow, toggleIsLoading,
-    toggleFollowingInProgress } from '../../redux/friendList-reducer';
+import {setCurrentPage,unfollowThunk,followThunk, getUsersThunk} from '../../redux/friendList-reducer';
 import Preloader from '../Preloader';
-import { usersAPI } from '../../api/api';
 
-// презентационная компанента, делает запрос на сервер, полученные данные передает функциональной компаненте
+// презентационная компанента, полученные данные передает функциональной компаненте
 class UsersContainer extends React.Component{
     constructor(props){
         super(props);
-        this.props.toggleIsLoading(true)
-        usersAPI.getUsers(this.props.currentPage, this.props.usersOnPage).then(
-            data => {
-                this.props.toggleIsLoading(false)
-                this.props.setUsers(data.items)
-                this.props.setTotalUserCount(data.totalCount)
-            }
-        );
+        this.props.getUsersThunk(this.props.currentPage,this.props.usersOnPage);
 
-        //для удобства изменения создал обьект suserAPI
+        //для удобства изменения создал обьект userAPI
         // Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.usersOnPage}`).then(
         //         response => {
         //             this.props.toggleIsLoading(false)
@@ -31,22 +20,9 @@ class UsersContainer extends React.Component{
         //     );
     }
     onCangedPage = (pageNumber) => {
-        this.props.setCurrentPage(pageNumber)
-        this.props.toggleIsLoading(true)
+        this.props.setCurrentPage(pageNumber);
 
-        usersAPI.getUsers(pageNumber, this.props.usersOnPage).then(
-            data => {
-                this.props.setUsers(data.items)
-                this.props.toggleIsLoading(false)
-            }
-        );
-
-        // Axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.usersOnPage}`).then(
-        //     response => {
-        //         this.props.setUsers(response.data.items)
-        //         this.props.toggleIsLoading(false)
-        //     }
-        // );
+        this.props.getUsersThunk(pageNumber,this.props.usersOnPage);
     }
     render(){
         return <>
@@ -57,10 +33,9 @@ class UsersContainer extends React.Component{
                     currentPage = {this.props.currentPage}
                     onCangedPage = {this.onCangedPage}
                     users = {this.props.users}
-                    follow = {this.props.follow}
-                    unfollow = {this.props.unfollow}
                     followingInProgress = {this.props.followingInProgress}
-                    toggleFollowingInProgress = {this.props.toggleFollowingInProgress}
+                    unfollowThunk = {this.props.unfollowThunk}
+                    followThunk = {this.props.followThunk}
                 />
             </>
     }
@@ -100,4 +75,5 @@ let mapStateToProps = (state) => {
 //     }
 // }
 
-export default connect(mapStateToProps, {toggleIsLoading,setCurrentPage,setTotalUserCount,setUsers,unfollow,follow,toggleFollowingInProgress})(UsersContainer)
+export default connect(mapStateToProps,
+    {setCurrentPage,unfollowThunk,followThunk, getUsersThunk})(UsersContainer)

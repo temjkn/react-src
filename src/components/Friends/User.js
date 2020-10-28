@@ -2,18 +2,17 @@ import React from 'react';
 import classes from './User.module.css';
 import avatarImage from '../../assets/images/avatar.png'
 import { NavLink } from 'react-router-dom';
-import { usersAPI } from '../../api/api';
 
 function User(props) {
-    let pageCouter = Math.ceil(props.totalUsersCount / props.usersOnPage)
-    let pages = []
+    let pageCouter = Math.ceil(props.totalUsersCount / props.usersOnPage);
+    let pages = [];
     for(let i = 1; i <= pageCouter; i++){
-        pages.push(i)
+        pages.push(i);
     }
     return <div>
         <div className = {classes.pagination}>{pages.map(
                 p => {
-                    return <span key = {p.id} className = {props.currentPage === p ? classes.activePage : 'notActive'} 
+                    return <span key = {p.id} className = {props.currentPage === p ? classes.activePage : 'notActive'}
                     onClick={(e) => {
                         props.onCangedPage(p)
                     }}>{p}_</span>
@@ -26,13 +25,11 @@ function User(props) {
                     <img src={u.photos.small != null ? u.photos.small : avatarImage} alt={u.name} className={classes.photo}/>
                     {u.followed
                         ? <button
-                            disabled = {props.followingInProgress.some(id => id === u.id)} //изменяю состояние кнопки в зависимости от ответа сервера
+                            //изменяю состояние кнопки в зависимости от
+                            // наличия id-шника в массиве возврачает true or false
+                            disabled = {props.followingInProgress.some(id => id === u.id)}
                             onClick={() => {
-                                props.toggleFollowingInProgress(true, u.id)
-                                usersAPI.isUnfollow(u.id).then(data =>{ // после выполнения запроса делает ещё одно действие "then"
-                                    data.resultCode === 0 && props.unfollow(u.id)
-                                    props.toggleFollowingInProgress(false, u.id)
-                                });
+                                props.unfollowThunk(u.id);
 
                                 // Axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, { //delete запрос посылается с двумя параметрами,вторым идет обьект с настройками
                                 //     withCredentials: true,                                                    // это подгрузка cookie с моим id и api ключом
@@ -44,17 +41,10 @@ function User(props) {
                                 //         response.data.resultCode === 0 && props.unfollow(u.id)
                                 //     });
                             }}>Unfollow</button>
-                        : <button 
+                        : <button
                             disabled = {props.followingInProgress.some(id => id === u.id)}
                             onClick={() => {
-
-                                //toggleFollowingInProgress отправляю в редюсер id пользователя, по завершению запроса удаляю его из массива
-                                props.toggleFollowingInProgress(true, u.id)
-
-                                usersAPI.isFollow(u.id).then(data =>{ // после выполнения запроса делает ещё одно действие "then"
-                                    data.resultCode === 0 && props.follow(u.id)
-                                    props.toggleFollowingInProgress(false, u.id)
-                                });
+                                props.followThunk(u.id);
 
                                 // Axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, { // post запрос отправлется с 3мя пораметрами,
                                 //     withCredentials: true,                                                      // третьим отправляем настройки с куками и апи
@@ -74,7 +64,7 @@ function User(props) {
                         <span>{u.name}</span>
                     </div>
                     <div>
-                        <NavLink to = {'/profile/'+u.id}>see profile</NavLink>
+                        <NavLink to = {'/profile/' + u.id}>see profile</NavLink>
                         {/* <span>{u.location.country}</span> */}
                         {/* <span>{u.location.sity}</span> */}
                     </div>
