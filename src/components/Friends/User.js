@@ -64,7 +64,7 @@ function User(props) {
                         <span>{u.name}</span>
                     </div>
                     <div>
-                        <NavLink to = {'/profile/' + u.id}>see profile</NavLink>
+                        <NavLink to = {'/profile/'+u.id}>see profile</NavLink>
                         {/* <span>{u.location.country}</span> */}
                         {/* <span>{u.location.sity}</span> */}
                     </div>

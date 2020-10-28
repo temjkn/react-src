@@ -7,10 +7,11 @@ const SET_TOTAL_USER_COUNT = 'SET_TOTAL_USER_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const TOGGLE_IS_LOADING = 'TOGGLE_IS_LOADING';
 const TOGGLE_FOLLOWING_IN_PROGRESS = 'TOGGLE_FOLLOWING_IN_PROGRESS';
+const SET_MY_FRIENDS = 'SET_MY_FRIENDS';
 
 let initialState = {
     users: [],
-    myFriendtsList: 0,
+    myFriendtsList: [],
     totalUsersCount: 0,
     usersOnPage: 35,
     currentPage: 1,
@@ -56,7 +57,11 @@ const friendsListReducer = (state = initialState, action) => {
                 })
             }
         case SET_USERS: {
-            return { ...state, users: action.users }
+            return { ...state, users: action.users
+            }
+        }
+        case SET_MY_FRIENDS: {
+            return { ...state, myFriendtsList: action.users.filter( u => u.followed && u)}
         }
         case SET_TOTAL_USER_COUNT: {
             return { ...state, totalUsersCount: action.totalUsersCount}
@@ -82,13 +87,14 @@ const friendsListReducer = (state = initialState, action) => {
     }
 }
 
-export const follow = (userId) => ({type: FOLLOW, userId })
-export const unfollow = (userId) => ({type: UNFOLLOW, userId })
-export const setUsers = (users) => ({type: SET_USERS, users })
-export const setTotalUserCount = (totalUsersCount) => ({type: SET_TOTAL_USER_COUNT, totalUsersCount })
-export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage })
-export const toggleIsLoading = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading })
-export const toggleFollowingInProgress = (isFetching, userId) => ({type: TOGGLE_FOLLOWING_IN_PROGRESS, isFetching, userId })
+export const follow = (userId) => ({type: FOLLOW, userId });
+export const unfollow = (userId) => ({type: UNFOLLOW, userId });
+export const setUsers = (users) => ({type: SET_USERS, users });
+export const setMyFriends = (users) => ({type: SET_MY_FRIENDS, users });
+export const setTotalUserCount = (totalUsersCount) => ({type: SET_TOTAL_USER_COUNT, totalUsersCount });
+export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage });
+export const toggleIsLoading = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading });
+export const toggleFollowingInProgress = (isFetching, userId) => ({type: TOGGLE_FOLLOWING_IN_PROGRESS, isFetching, userId });
 
 // thunkCreator, ф-ция высшего порядка, возвращает другую ф-цию, в параметрах принимает необходимые данные
 // и возвращает thunk(санки)
@@ -99,6 +105,7 @@ export const getUsersThunk = (currentPage,usersOnPage) => { //thunkCreator
             data => {
                 dispatch(toggleIsLoading(false))
                 dispatch(setUsers(data.items))
+                dispatch(setMyFriends(data.items))
                 dispatch(setTotalUserCount(data.totalCount))
             }
         );

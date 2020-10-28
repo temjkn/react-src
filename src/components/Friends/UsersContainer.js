@@ -75,5 +75,4 @@ let mapStateToProps = (state) => {
 //     }
 // }
 
-export default connect(mapStateToProps,
-    {setCurrentPage,unfollowThunk,followThunk, getUsersThunk})(UsersContainer)
+export default connect(mapStateToProps,{setCurrentPage,unfollowThunk,followThunk,getUsersThunk})(UsersContainer)
