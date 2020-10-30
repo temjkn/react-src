@@ -3,6 +3,7 @@ import User from './User';
 import { connect } from "react-redux";
 import {setCurrentPage,unfollowThunk,followThunk, getUsersThunk} from '../../redux/friendList-reducer';
 import Preloader from '../Preloader';
+import { withAuthRedirectHOC } from '../../hoc/withAuthRedirectHOC';
 
 // презентационная компанента, полученные данные передает функциональной компаненте
 class UsersContainer extends React.Component{
@@ -75,4 +76,6 @@ let mapStateToProps = (state) => {
 //     }
 // }
 
-export default connect(mapStateToProps,{setCurrentPage,unfollowThunk,followThunk,getUsersThunk})(UsersContainer)
+let UsersContainerWrapper = connect(mapStateToProps,{setCurrentPage,unfollowThunk,followThunk,getUsersThunk})(UsersContainer);
+
+export default withAuthRedirectHOC(UsersContainerWrapper);

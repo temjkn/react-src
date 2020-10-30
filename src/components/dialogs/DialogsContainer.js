@@ -1,6 +1,7 @@
 import { addMessageActionCreator,updateTextMessageActionCreator } from '../../redux/dialogs-reducer';
 import Dialogs from './Dialogs';
 import { connect } from 'react-redux';
+import { withAuthRedirectHOC } from '../../hoc/withAuthRedirectHOC';
 
 // внизу функция созданная руками, connect()() делает тоже, но компактнее - передаю обьекты со state и dispatch и передаю нужной компоненте
 // function DialogsContainer(props){
@@ -50,4 +51,4 @@ let mapDispatchToProps = (dispatch) => {
 
 const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs);
 
-export default DialogsContainer;
+export default withAuthRedirectHOC(DialogsContainer);
