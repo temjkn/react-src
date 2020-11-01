@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {setCurrentPage,unfollowThunk,followThunk, getUsersThunk} from '../../redux/friendList-reducer';
 import Preloader from '../Preloader';
 import { withAuthRedirectHOC } from '../../hoc/withAuthRedirectHOC';
+import { compose } from 'redux';
 
 // презентационная компанента, полученные данные передает функциональной компаненте
 class UsersContainer extends React.Component{
@@ -76,6 +77,7 @@ let mapStateToProps = (state) => {
 //     }
 // }
 
-let UsersContainerWrapper = connect(mapStateToProps,{setCurrentPage,unfollowThunk,followThunk,getUsersThunk})(UsersContainer);
+let UsersContainerWrapper = connect(mapStateToProps,{setCurrentPage,unfollowThunk,followThunk,getUsersThunk});
 
-export default withAuthRedirectHOC(UsersContainerWrapper);
+//метод compose - выполняет переданные ему инструкции начиная с права на лево,над компонентом во вторых скобках
+export default compose(withAuthRedirectHOC,UsersContainerWrapper)(UsersContainer)

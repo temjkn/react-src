@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from "react-redux";
 import Friends from "./Friends";
 
-function FriendsShort(props){
-    return <Friends myFriendtsList = {props.myFriendtsList}/>
+class FriendsShort extends React.Component{
+    render(){
+        return <Friends myFriendtsList = {this.props.myFriendtsList}/>
+    }
 }
 
 const mapStateToProps = (state) => {
