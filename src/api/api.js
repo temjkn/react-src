@@ -8,6 +8,18 @@ const instance = Axios.create({
     }
 });
 
+export const profileAPI = {
+    getProfile(userId){
+        return instance.get(`profile/` + userId)
+    },
+    getStatus(userId){ //после запроса на сервер возвращает его результат
+        return instance.get(`profile/status/`+ userId);
+    },
+    updateStatus(status){ //после запроса на сервер возвращает его результат
+        return instance.put(`profile/status`, {status});
+    }
+}
+
 export const usersAPI = {
     getUsers(currentPage = 1, usersOnPage = 15){ //после запроса на сервер возвращает его результат
         return instance.get(`users?page=${currentPage}&count=${usersOnPage}`).then(
@@ -17,7 +29,7 @@ export const usersAPI = {
             );
     },
     getProfile(userId){
-        return instance.get(`profile/` + userId)
+        return profileAPI.getProfile(userId)
     },
     getAuth(){
         return instance.get(`/auth/me`).then(

@@ -1,9 +1,10 @@
-import { usersAPI } from "../api/api";
+import { profileAPI, usersAPI } from "../api/api";
 
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 const ADD_POST = 'ADD_POST';
 const CLICK = 'CLICK';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS';
 
 let initialStore = {
     postsData : [
@@ -13,7 +14,8 @@ let initialStore = {
     {id: 4, message: "message", likesCount:5}
     ],
     newPostText : "",
-    profile : null
+    profile : null,
+    status : ""
 }
 
 const profileReducer = (state = initialStore,action) => {
@@ -64,6 +66,9 @@ const profileReducer = (state = initialStore,action) => {
         case SET_USER_PROFILE : {
             return {...state, profile: action.profile}
         }
+        case SET_STATUS : {
+            return {...state, status: action.status}
+        }
         default:
             return state;
     }
@@ -75,12 +80,35 @@ export const addPostActionCreator = () => ({type : ADD_POST}); //создаю о
 export const updateNewPostTextActionCreator = (text) => ({type : UPDATE_NEW_POST_TEXT, textMessage : text}); //создаю обьект для dispatch
 export const clickActionCreator = (id) => ({type : CLICK, id : id}); //создаю обьект для dispatch
 export const setUserProfile = (profile) => ({type : SET_USER_PROFILE, profile}); //создаю обьект для dispatch
+export const setStatus = (status) => ({type : SET_STATUS, status}); //создаю обьект для dispatch
 
 export const getUserProfileThunk = (userId) => {
     return (dispatch) => {
         usersAPI.getProfile(userId).then(
             response => {
                 dispatch(setUserProfile(response.data));
+            }
+        )
+    }
+}
+
+export const getUserStatusTHUNK = (userId) => {
+    return (dispatch) => {
+        profileAPI.getStatus(userId).then(
+            response => {
+                dispatch(setStatus(response.data))
+            }
+        )
+    }
+}
+
+export const updateStatusTHUNK = (status) => {
+    return (dispatch) => {
+        profileAPI.updateStatus(status).then(
+            response =>{
+                if(response.data.resultCode === 0){
+                    dispatch(setStatus(status))
+                }
             }
         )
     }

@@ -1,19 +1,17 @@
-import * as Axios from 'axios';
 import React from 'react';
 import ProfileInfo from './profileInfo/ProfileInfo';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
-import { getUserProfileThunk } from '../../redux/profile-reduser';
+import { getUserProfileThunk, getUserStatusTHUNK, updateStatusTHUNK } from '../../redux/profile-reduser';
 import { connect } from 'react-redux';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { withAuthRedirectHOC } from '../../hoc/withAuthRedirectHOC';
 
 class ProfileContainer extends React.Component{
     componentDidMount(){
         let userId = this.props.match.params.userId;
-        if(!userId) userId = 2;
+        if(!userId) userId = 9323;
         this.props.getUserProfileThunk(userId);
-        
+        this.props.getUserStatusTHUNK(userId);
         //так делал до thunk
         // usersAPI.getProfile(userId).then(
         //     response => {
@@ -23,10 +21,14 @@ class ProfileContainer extends React.Component{
     }
 
     render() {
-        if(!this.props.isAuth) return <Redirect to = 'login'/>
+        // if(!this.props.isAuth) return <Redirect to = 'login'/>
         return(
             <div>
-                <ProfileInfo {...this.props} profile={this.props.profile}/>
+                <ProfileInfo {...this.props}
+                    profile={this.props.profile}
+                    status={this.props.status}
+                    updateStatusTHUNK = {this.props.updateStatusTHUNK}
+                />
                 <MyPostsContainer/>
             </div>
         )
@@ -34,11 +36,11 @@ class ProfileContainer extends React.Component{
 }
 
 let mapStateToProps = (state) => ({
-    profile: state.profilePage.profile
+    profile: state.profilePage.profile,
+    status: state.profilePage.status
 })
 
 export default compose(
-    connect(mapStateToProps, {getUserProfileThunk}),
-    withRouter,
-    withAuthRedirectHOC
+    connect(mapStateToProps, {getUserProfileThunk, getUserStatusTHUNK, updateStatusTHUNK}),
+    withRouter
 )(ProfileContainer)

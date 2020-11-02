@@ -19,7 +19,7 @@ function ProfileInfo(props){
                 <div>
                     <h2>Fred</h2>
                     <h3>My status:</h3>
-                    <ProfileStatus status='hkjhkjhk'/>
+                    <ProfileStatus status={props.status} updateStatusTHUNK = {props.updateStatusTHUNK}  userId = {props.profile.useId}/>
                     {/* <span className={classes.user_list}>Date of Birth: <span>23 dec.</span></span>
                     <span className={classes.user_list}>City: <span>Polock</span></span>
                     <span className={classes.user_list}>Education: <span>BSU</span></span> */}
