@@ -2,6 +2,7 @@ import dialogsReducer from "./dialogs-reducer";
 import profileReducer from "./profile-reduser";
 import friendsListReducer from "./friendList-reducer";
 import authReducer from "./auth-reduser";
+import appReducer from "./app-reduser";
 import thunkMiddleware from "redux-thunk";
 
 const { createStore, combineReducers, applyMiddleware } = require("redux");
@@ -11,7 +12,8 @@ let redusers = combineReducers({
     profilePage : profileReducer,
     dialogsPage : dialogsReducer,
     friendsList : friendsListReducer,
-    auth : authReducer
+    auth : authReducer,
+    app : appReducer
 });
 
 //createStore - создает стор

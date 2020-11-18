@@ -33,7 +33,7 @@ export const setMessageError = (messageError) => ({type:SET_MESSAGE_ERROR, messa
 
 export const getAuthUserDataThunk = () => {
     return (dispatch) => {
-        usersAPI.getAuth().then(data =>{
+        return usersAPI.getAuth().then(data =>{
             if(data.resultCode === 0){ //если авторизован - отпавляю свои данные(ид, маил, логин)
                 let {id, login, email} = data.data;
                 dispatch(setAuthUserData(id, email, login, true));
