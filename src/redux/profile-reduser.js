@@ -27,31 +27,36 @@ const profileReducer = (state = initialStore,action) => {
             return {...state,newPostText : action.textMessage};//сделал копию стейта, для того чтобы функция connect()() увидела изменения и перерисовала страницу
         }
         case ADD_POST :{
+            // let newPost = {
+            //     id: 5,
+            //     message: action.newPostText,
+            //     likesCount: 0
+            // };
+            // return {
+            //     ...state,
+            //     postsData: [...state.postsData, newPost],
+            //     newPostText: ''
+            // };
             stateCopy = {...state};
             let postsDataLength = [...state.postsData].length;
-            if(stateCopy.newPostText !== ''){
-                let idNumber = postsDataLength + 1;
-                return {
-                    ...state,
-                    postsData : [
-                        ...state.postsData,
-                        { //добавил новый обьект в массив с постами
-                            id: idNumber,
-                            message: stateCopy.newPostText,
-                            likesCount:0
-                        }
-                    ],
-                    newPostText : ''
-                }
-                    // аналог дабавления обьекта( нет push())
-                    // let newPost = {
-                    //     id: idNumber,
-                    //     message: stateCopy.newPostText,
-                    //     likesCount:0
-                    // };
-                    // stateCopy.postsData.push(newPost);
+            let idNumber = postsDataLength + 1;
+            let newPost = {
+                id: idNumber,
+                message: action.newPostText,
+                likesCount: 0
             }
-            break;
+            return {
+                ...state,
+                postsData : [...state.postsData,newPost],
+                newPostText : ''
+            }
+                // аналог дабавления обьекта( нет push())
+                // let newPost = {
+                //     id: idNumber,
+                //     message: stateCopy.newPostText,
+                //     likesCount:0
+                // };
+                // stateCopy.postsData.push(newPost);
         }
         case CLICK : {
             stateCopy = {...state};
@@ -76,7 +81,7 @@ const profileReducer = (state = initialStore,action) => {
 
 
 //creator для страницы постов
-export const addPostActionCreator = () => ({type : ADD_POST}); //создаю обьект для dispatch
+export const addPostActionCreator = (newPostText) => ({type : ADD_POST, newPostText}); //создаю обьект для dispatch
 export const updateNewPostTextActionCreator = (text) => ({type : UPDATE_NEW_POST_TEXT, textMessage : text}); //создаю обьект для dispatch
 export const clickActionCreator = (id) => ({type : CLICK, id : id}); //создаю обьект для dispatch
 export const setUserProfile = (profile) => ({type : SET_USER_PROFILE, profile}); //создаю обьект для dispatch

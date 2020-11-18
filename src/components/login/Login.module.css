@@ -1,0 +1,14 @@
+.formLogin{
+    max-width: 500px;
+}
+form{
+    padding: 15px;
+    border: 1px solid green;
+}
+input, label{
+    display: block;
+    margin-bottom: 15px;
+}
+label input{
+    display: inline-block;
+}

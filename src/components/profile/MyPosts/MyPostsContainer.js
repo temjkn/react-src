@@ -42,9 +42,12 @@ let mapStateToProps = (state) => {
 
 let mapDispathToProps = (dispatch) => {
     return{
-        addPost : () => {
-            dispatch(addPostActionCreator())
+        addPost: (newPostText) => {
+            dispatch(addPostActionCreator(newPostText));
         },
+        // addPost : () => {
+        //     dispatch(addPostActionCreator())
+        // },
         updateNewPostText : (text) => {
             let action = (updateNewPostTextActionCreator(text));
             dispatch(action);

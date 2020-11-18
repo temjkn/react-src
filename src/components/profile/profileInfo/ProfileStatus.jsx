@@ -6,7 +6,13 @@ class ProfileStatus extends React.Component{
         editMode : false,
         status : this.props.status
     }
-
+    componentDidUpdate(prevProps, prevState){
+        //если старый статус не равен новому - записываю новый
+        //компонента перерисовывается потому что меняется локальный стейт
+        if(prevProps.status !== this.props.status){
+            this.setState({status : this.props.status})
+        }
+    }
     activateEditMode = () => {
         if(this.props.userId === 9323){
             this.setState({editMode : true});
@@ -20,6 +26,7 @@ class ProfileStatus extends React.Component{
         this.setState({status : e.currentTarget.value});
     }
     render(){
+        console.log(this.props.userId)
         return(
             <div>
                 {this.state.editMode ?

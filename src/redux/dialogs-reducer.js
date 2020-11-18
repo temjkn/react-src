@@ -31,21 +31,17 @@ const dialogsReducer = (state = initialStore,action) => {
         }
         case ADD_MESSAGE :{
             stateCopy = {...state};
-            if(stateCopy.newMessageText !== ''){
-                return {
-                    ...state,
-                    messagesData : [
-                        ...state.messagesData,
-                        {
-                            id: 8,
-                            message: stateCopy.newMessageText,
-                            your: true
-                        }
-                    ],
-                    newMessageText : ''
-                }
-            };
-            break;
+            let newMessageData = {
+                id: 8,
+                message: action.newMessageText,
+                your: true
+            }
+            return {
+                ...state,
+                messagesData : [
+                    ...state.messagesData,newMessageData
+                ]
+            }
         }
         default:
             return state;
@@ -54,6 +50,6 @@ const dialogsReducer = (state = initialStore,action) => {
 
 //creator для страницы сообщений
 export const updateTextMessageActionCreator = (text) => ({type : UPDATE_TEXT_MESSAGE, textMessage : text});  //создаю обьект для dispatch
-export const addMessageActionCreator = () => ({type : ADD_MESSAGE}); //создаю обьект для dispatch
+export const addMessageActionCreator = (newMessageText) => ({type : ADD_MESSAGE, newMessageText}); //создаю обьект для dispatch
 
 export default dialogsReducer;

@@ -51,6 +51,12 @@ export const usersAPI = {
                 return response.data
             }
         )
+    },
+    sendLogin(email, password, rememberMe = false){
+        return instance.post(`auth/login`,{ email, password, rememberMe })
+    },
+    Logout(){
+        return instance.delete(`auth/login`)
     }
 
 // Axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, { // post запрос отправлется с 3мя пораметрами,

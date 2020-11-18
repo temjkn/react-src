@@ -30,7 +30,9 @@ function App(props) {
             <UsersContainer />
           }/>
           <Route path="/setting" component={Setting}/>
-          <Route path="/login" component={Login}/>
+          <Route path="/login" render = { ()=> 
+            <Login />
+          }/>
         </div>
       </div>
     </BrowserRouter>
