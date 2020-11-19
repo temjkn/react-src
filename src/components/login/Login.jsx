@@ -36,7 +36,7 @@ const LoginForm = (props) => (
                 >
                     {({ input, meta }) => (
                     <>
-                        <input {...input} type="text" placeholder="password" />
+                        <input {...input} type="password" placeholder="password" />
                         {(meta.error || meta.submitError) && meta.touched && (<span>{meta.error || meta.submitError}</span>
                         )}
                     </>

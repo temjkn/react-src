@@ -1,5 +1,4 @@
 import { usersAPI } from "../api/api";
-import {Form } from "react-final-form";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_MESSAGE_ERROR = 'SET_MESSAGE_ERROR';
